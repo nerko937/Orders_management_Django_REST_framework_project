@@ -34,3 +34,5 @@ class ProgressView(generics.RetrieveUpdateDestroyAPIView):
 	queryset = Progress.objects.all()
 	serializer_class = ProgressSerializer
 	#permission_classes = (IsAdminUser | ReadOnly,)
+
+

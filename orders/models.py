@@ -27,11 +27,10 @@ ORDER_TYPE = (
 
 class Order(models.Model):
 
-
 	name = models.CharField(verbose_name='nazwa', max_length=255)
 	progress = models.OneToOneField(
 		Progress,
-		verbose_name='Postęp', 
+		verbose_name='Postęp',
 		on_delete=models.CASCADE,
 		primary_key=True
 	)
