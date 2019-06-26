@@ -1,8 +1,6 @@
 from django.shortcuts import render
 from rest_framework import generics
 from rest_framework.permissions import BasePermission, IsAdminUser, SAFE_METHODS
-from rest_framework.response import Response
-from rest_framework.views import APIView
 from django.views import View
 
 from .serializers import OrderSerializer, ProgressSerializer
@@ -45,6 +43,6 @@ class ProgressView(generics.RetrieveUpdateDestroyAPIView):
 	#permission_classes = (IsAdminUser | ReadOnly,)
 
 
-class TestView(View):
+class RegularOrderListView(View):
 	def get(self, request):
 		return render(request, 'base.html')
