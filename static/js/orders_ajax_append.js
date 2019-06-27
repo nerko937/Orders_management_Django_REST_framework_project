@@ -1,4 +1,7 @@
 function appendJSON ( data ) {
+    // creates and appends table with orders to main tag in html
+    // takes JSON data as argument
+
     var main = $( 'main' );
     main.children().remove();
 
@@ -29,11 +32,12 @@ function appendJSON ( data ) {
 }
 
 function makeGetRequest ( url ) {
+    // makes get request with url as argument
+
     $.get( url, function( data ) {
 
     })
         .fail(function ( xhr, status, err ) {
-            alert('error');
             console.log(xhr);
             console.log(status);
             console.log(err);
@@ -45,14 +49,18 @@ function makeGetRequest ( url ) {
 
 $(function () {
 
+    // show all button click event
     var showAll = $( '#show-all' );
     showAll.click(function () {
         makeGetRequest( "/api/orders/" )
     });
+
+    // trigger show all on main page
     if ( window.location.pathname === '/' ) {
         showAll.trigger( "click" );
     }
 
+    // order filtering by name
     var search = $( '#search' );
     search.on( "submit", function( event ) {
         event.preventDefault();
