@@ -1,4 +1,7 @@
-function appendJSON(data) {
+function appendJSON ( data ) {
+    var main = $( 'main' );
+    main.children().remove();
+
     var divTable = $(
         '<div class="m-5">' +
             '<table class="table border">' +
@@ -11,7 +14,7 @@ function appendJSON(data) {
             '</table>' +
         '</div>'
     );
-    var rows = data.map(elem => $(
+    var rows = data.map( elem => $(
         '<tr>' +
             '<td>' + elem['name'] + '</td>' +
             '<td>' + elem['order_type'] + '</td>' +
@@ -19,20 +22,42 @@ function appendJSON(data) {
             '<td>' + elem['realisation_limit_date'] + '</td>' +
         '</tr>')
     );
-    rows.forEach(function (elem) {
-        divTable.children().append(elem)
+    rows.forEach(function ( elem ) {
+        divTable.children().append( elem )
     });
-    $('main').append(divTable)
+    main.append(divTable)
+}
+
+function makeGetRequest ( url ) {
+    $.get( url, function( data ) {
+
+    })
+        .fail(function ( xhr, status, err ) {
+            alert('error');
+            console.log(xhr);
+            console.log(status);
+            console.log(err);
+        })
+        .done(function (data) {
+            appendJSON(data);
+        })
 }
 
 $(function () {
-    $.get( "/api/orders/", function( data ) {
 
-    })
-        .fail(function () {
-            alert('error')
-        })
-        .done(function (data) {
-            appendJSON(data)
-        })
+    var showAll = $( '#show-all' );
+    showAll.click(function () {
+        makeGetRequest( "/api/orders/" )
+    });
+    if ( window.location.pathname === '/' ) {
+        showAll.trigger( "click" );
+    }
+
+    var search = $( '#search' );
+    search.on( "submit", function( event ) {
+        event.preventDefault();
+        var url = '/api/orders/?order_name=' + $( this ).find( 'input' ).val();
+        console.log(url);
+        makeGetRequest( url )
+    });
 });

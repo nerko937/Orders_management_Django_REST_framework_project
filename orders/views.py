@@ -18,7 +18,7 @@ class OrderListView(generics.ListCreateAPIView):
 		queryset = Order.objects.all()
 		order_name = self.request.query_params.get('order_name', None)
 		if order_name is not None:
-			queryset = queryset.filter(name=order_name)
+			queryset = queryset.filter(name__contains=order_name)
 		return queryset
 
 	serializer_class = OrderSerializer
