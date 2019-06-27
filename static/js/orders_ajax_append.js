@@ -2,18 +2,23 @@ function appendJSON ( data ) {
     // creates and appends table with orders to main tag in html
     // takes JSON data as argument
 
+    var today = new Date();
+
     var main = $( 'main' );
     main.children().remove();
 
     var divTable = $(
         '<div class="m-5">' +
             '<table class="table border">' +
-                '<tr>' +
-                    '<th>Name</th>' +
-                    '<th>Type</th>' +
-                    '<th>Status</th>' +
-                    '<th>Realisation date</th>' +
-                '</tr>' +
+                '<thead>' +
+                    '<tr>' +
+                        '<th>Name</th>' +
+                        '<th>Type</th>' +
+                        '<th>Status</th>' +
+                        '<th>Realisation date</th>' +
+                    '</tr>' +
+                '</thead>' +
+                '<tbody></tbody>' +
             '</table>' +
         '</div>'
     );
@@ -25,10 +30,24 @@ function appendJSON ( data ) {
             '<td>' + elem['realisation_limit_date'] + '</td>' +
         '</tr>')
     );
+    var tableBody = divTable.find( 'tbody' );
     rows.forEach(function ( elem ) {
-        divTable.children().append( elem )
+        tableBody.append( elem )
     });
-    main.append(divTable)
+
+    // coloring finished and late orders
+    tableBody.children().each(function () {
+        var last = $( this ).children().last();
+        var elemDate = Date.parse( last.html() );
+        if ( today >= elemDate ) {
+            $( this ).addClass( 'table-danger' )
+        }
+        if ( last.prev().html() === 'true' ) {
+            $( this ).removeClass( 'table-danger' ).addClass( 'table-success' )
+        }
+    });
+
+    main.append(divTable);
 }
 
 function makeGetRequest ( url ) {
@@ -65,7 +84,7 @@ $(function () {
     search.on( "submit", function( event ) {
         event.preventDefault();
         var url = '/api/orders/?order_name=' + $( this ).find( 'input' ).val();
-        console.log(url);
         makeGetRequest( url )
     });
+
 });
