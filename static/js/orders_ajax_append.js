@@ -68,23 +68,40 @@ function makeGetRequest ( url ) {
 
 $(function () {
 
-    // show all button click event
+    var pathName = window.location.pathname;
+
+    // show-all button click event
     var showAll = $( '#show-all' );
     showAll.click(function () {
-        makeGetRequest( "/api/orders/" )
+        if ( pathName === '/' ) {
+            makeGetRequest( "/api/orders/" )
+        } else {
+            window.location.replace( '/' )
+        }
     });
 
-    // trigger show all on main page
-    if ( window.location.pathname === '/' ) {
-        showAll.trigger( "click" );
+    // redirect after sending search form from different site
+    // or trigger show-all on main page
+    var searchParams = new URLSearchParams(window.location.search);
+
+    if ( searchParams.has('input') ) {
+        var url = '/api/orders/?order_name=' + searchParams.get( 'input' );
+        makeGetRequest( url )
+    } else if ( pathName === '/' ) {
+        showAll.trigger("click");
     }
 
     // order filtering by name
     var search = $( '#search' );
     search.on( "submit", function( event ) {
         event.preventDefault();
-        var url = '/api/orders/?order_name=' + $( this ).find( 'input' ).val();
-        makeGetRequest( url )
+        var input = $( this ).find( 'input' ).val();
+        var url = '/api/orders/?order_name=' + input;
+        if ( pathName === '/' ) {
+            makeGetRequest( url )
+        } else {
+            window.location.replace( '/?input=' + input )
+        }
     });
 
 });
