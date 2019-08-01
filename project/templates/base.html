@@ -18,12 +18,14 @@
             crossorigin="anonymous">
 
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
             integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
             crossorigin="anonymous">
 
     </script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    <script
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
             crossorigin="anonymous">
 
@@ -31,6 +33,7 @@
 
     {% load static %}
     <script src="{% static 'js/orders_ajax_append.js' %}"></script>
+    <script src="{% static 'js/ajax_sign_in.js' %}"></script>
 
     {% block head %}{% endblock %}
 
@@ -39,22 +42,60 @@
 
     <nav class="navbar navbar-dark bg-danger">
 
+        <!-- main page link -->
         <a class="navbar-brand" id="show-all" href="#">Show all orders</a>
 
+        <!-- search form -->
         <form class="form-inline my-2 my-lg-0" id="search">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" style="width: 30vw">
+            <input
+                    class="form-control mr-sm-2"
+                    type="search"
+                    placeholder="Search"
+                    aria-label="Search"
+                    style="width: 30vw"
+            >
             <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
         </form>
 
+        <!-- sign up -->
         <div class="navbar-nav">
             <a class="nav-item nav-link" href="{% url 'sign_up' %}">Sign up</a>
         </div>
 
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="text" placeholder="Username" aria-label="Username">
-            <input class="form-control mr-sm-2" type="password" placeholder="Password" aria-label="Password">
+
+        <!-- sign in/user details -->
+        {% if not request.user.is_authenticated %}
+        <form class="form-inline my-2 my-lg-0" id="sign-in">
+            <input
+                    id="username"
+                    name="username"
+                    class="form-control mr-sm-2"
+                    type="text" placeholder="Username"
+                    aria-label="Username"
+            >
+            <input
+                    name="password"
+                    class="form-control mr-sm-2"
+                    type="password"
+                    placeholder="Password"
+                    aria-label="Password"
+            >
             <button class="btn btn-info my-2 my-sm-0" type="submit">Sign in</button>
         </form>
+        {% else %}
+        <span class="navbar-text">
+            Logged as: {{ request.user.username }}
+        </span>
+        {% endif %}
+        <button
+                id="logout"
+                class="btn btn-info my-2 my-sm-0"
+                {% if not request.user.is_authenticated %}
+                    style="display: none;"
+                {% endif %}
+                >
+            Logout
+        </button>
 
     </nav>
 

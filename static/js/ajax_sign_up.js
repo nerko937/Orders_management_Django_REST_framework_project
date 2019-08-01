@@ -8,7 +8,6 @@ $(function () {
 
         $.post( '/api/auth/registration/', $( this ).serialize() )
             .done(function() {
-                alert('rejsestracja jest')
                 var data = {
                     "first_name" : $('#register-name').val(),
                     "last_name" : $('#register-surname').val()
