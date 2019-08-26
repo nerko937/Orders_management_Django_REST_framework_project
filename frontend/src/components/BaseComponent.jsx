@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import NavBar from './NavBar.jsx';
-import Orders from './Orders.jsx';
+import NavBar from './NavBar/NavBar';
+import Orders from './Orders/Orders.jsx';
 
 
-class NavBar extends React.Component {
+class BaseComponent extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -21,7 +21,10 @@ class NavBar extends React.Component {
 	render() {
 		return (
 			<div>
-				<NavBar />
+				<header>
+					<NavBar searchCallback={this.searchCallback}/>
+				</header>
+				
 				<main>
 					<Orders dataToSearch={this.state.dataToSearch} />
 				</main>
@@ -30,4 +33,4 @@ class NavBar extends React.Component {
   	}
 }
 
-export default NavBar;
+export default BaseComponent;
