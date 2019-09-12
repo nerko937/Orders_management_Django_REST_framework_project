@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import axios from 'axios';
 
 
@@ -10,7 +9,7 @@ class Orders extends React.Component {
 
 		this.state = {
 			data: null,
-			isLoading: false,
+			isLoading: true,
 			error: null
 		}
 	};
@@ -26,32 +25,36 @@ class Orders extends React.Component {
 		}
 	}
 
-	shouldComponentUpdate(nextProps) {
-			console.log(this.props.dataToSearch);
-			console.log(nextProps.dataToSearch);
-			return true
-	}
+	async getOrders() {
 
-	componentWillMount() {
 		this.setState({ isLoading: true });
 		
-		const searchData = this.props.searchData
-		let url = 'http://127.0.0.1:8000/api/orders/' 
-		url = searchData ? url + '?order_name=' + searchData : url;
+		let dataToSearch = this.props.dataToSearch;
+		let url = 'http://127.0.0.1:8000/api/orders/';
+		url = dataToSearch ? url + '?order_name=' + dataToSearch : url;
 
-		axios.get(url)
-			.then(response => {
-				this.setState({
-					data: response.data,
-					isLoading: false
-				})
+		try {
+			const response = await axios.get(url);
+			this.setState({
+				data: response.data,
+				isLoading: false
 			})
-			.catch(error => {
-				this.setState({
-					error: error,
-					isLoading: false
-				})
-			});
+		} catch (error) {
+			this.setState({
+				error: error,
+				isLoading: false
+			})
+		}
+	}
+
+	componentDidMount() {
+		this.getOrders();
+	}
+
+	componentDidUpdate(prevProps) {
+		if (this.props.dataToSearch !== prevProps.dataToSearch) {
+			this.getOrders();
+		}
 	}
 
 	render() {
@@ -79,7 +82,7 @@ class Orders extends React.Component {
 				<tbody>
 					{data.map(elem =>
 					<tr 
-						key={elem.id}
+						key={elem.pk}
 						className={
 							this.setColor(
 								elem.realisation_limit_date, elem.status

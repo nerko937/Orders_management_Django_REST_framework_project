@@ -3,6 +3,10 @@ from .models import Order, Progress
 
 
 class OrderSerializer(serializers.ModelSerializer):
+	pk = serializers.ReadOnlyField(
+		read_only=True,
+		source='progress.pk'
+	)
 	status = serializers.ReadOnlyField(
 		read_only=True,
 		source='progress.finish_status'
@@ -10,7 +14,7 @@ class OrderSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = Order
-		fields = ('name', 'order_type', 'status', 'realisation_limit_date')
+		fields = ('pk', 'name', 'order_type', 'status', 'realisation_limit_date')
 
 
 class ProgressSerializer(serializers.ModelSerializer):

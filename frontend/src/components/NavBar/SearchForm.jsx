@@ -1,12 +1,7 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 
 class NavBar extends React.Component {
-
-	constructor(props) {
-		super(props);
-	};
 
 	submitHandler = (event) => {
 		event.preventDefault();
