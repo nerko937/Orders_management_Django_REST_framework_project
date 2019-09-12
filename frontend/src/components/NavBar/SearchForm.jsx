@@ -11,7 +11,7 @@ class NavBar extends React.Component {
 	render() {
 		return (
 			<form
-					className="form-inline my-2"
+					className="form-inline"
 					onSubmit={this.submitHandler}	
 				>
 				<input
@@ -23,7 +23,7 @@ class NavBar extends React.Component {
 						style={{ width: "30vw" }}
 				/>
 				<button 
-						className="btn btn-info my-2" 
+						className="btn btn-info ml-1" 
 						type="submit"
 				>
 					Search
