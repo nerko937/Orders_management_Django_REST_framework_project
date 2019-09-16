@@ -8,6 +8,11 @@ class NavBar extends React.Component {
 		this.props.searchCallback(event.target.elements.search.value);
 	}
 
+	showAllHandler = (event) => {
+		event.preventDefault();
+		this.props.searchCallback(null);
+	}
+
 	render() {
 		return (
 			<form
@@ -20,13 +25,18 @@ class NavBar extends React.Component {
 						name="search"
 						placeholder="Search"
 						aria-label="Search"
-						style={{ width: "30vw" }}
 				/>
 				<button 
-						className="btn btn-info ml-1" 
+						className="btn btn-info mx-1" 
 						type="submit"
 				>
 					Search
+				</button>
+				<button
+						className="btn btn-primary"
+						onClick={this.showAllHandler}
+				>
+					Show all
 				</button>
 			</form>
 		);

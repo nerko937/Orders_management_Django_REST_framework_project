@@ -1,5 +1,5 @@
 import React from 'react';
-import axios from 'axios';
+import axios from '../axiosInstance';
 
 
 class Orders extends React.Component {
@@ -30,11 +30,11 @@ class Orders extends React.Component {
 		this.setState({ isLoading: true });
 		
 		let dataToSearch = this.props.dataToSearch;
-		let url = 'http://127.0.0.1:8000/api/orders/';
-		url = dataToSearch ? url + '?order_name=' + dataToSearch : url;
+		let urlEnd = 'orders/';
+		urlEnd = dataToSearch ? urlEnd + '?order_name=' + dataToSearch : urlEnd;
 
 		try {
-			const response = await axios.get(url);
+			const response = await axios.get(urlEnd);
 			this.setState({
 				data: response.data,
 				isLoading: false

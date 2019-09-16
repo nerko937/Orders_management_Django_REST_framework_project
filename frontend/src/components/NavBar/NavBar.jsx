@@ -1,6 +1,6 @@
 import React from 'react';
-import ShowAll from './ShowAll';
 import SearchForm from './SearchForm';
+import UserManagement from './UserManagement';
 
 
 class NavBar extends React.Component {
@@ -8,8 +8,13 @@ class NavBar extends React.Component {
 	render() {
 		return (
 			<nav className="navbar navbar-dark bg-danger">
-				<ShowAll searchCallback={this.props.searchCallback} />
+
+				<span className="navbar-brand my-1 h1">Orders Management</span>
+
 				<SearchForm searchCallback={this.props.searchCallback} />
+
+				<UserManagement />
+
 			</nav>
 		);
 	}

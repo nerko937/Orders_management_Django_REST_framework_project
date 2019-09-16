@@ -11,3 +11,12 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.user-ico {
+  color: #f2f2f2;
+}
+
+.user-ico:hover {
+  cursor: pointer;
+  color: #a6a6a6;
+}
