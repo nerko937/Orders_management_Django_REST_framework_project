@@ -1,4 +1,5 @@
 import React from 'react';
+import $ from 'jquery';
 import {defaultInstance, authInstance} from '../axiosInstances';
 
 
@@ -45,12 +46,28 @@ class UserManagement extends React.Component {
 		}
 	}
 
+	updateUserHandler() {
+		$('#modalUpdateUser').modal('show')
+	}
+
+	registerButtonHandler() {
+		$('#modalRegister').modal('show')
+	}
+
+	registerHandler = async (event) => {
+		console.log(event);
+		//const response = await defaultInstance.post('auth/login/', );
+	}
+
 	async componentDidMount() {
 		if (localStorage.getItem('token')) {
 			this.setState({isLoading: true})
 			try {
 				const response = await authInstance.get('users/self/');
-				this.setState({username: response.data.username, isLoading: false});
+				this.setState({
+					username: response.data.username,
+					isLoading: false
+				});
 				localStorage.setItem('isStaff', response.data.is_staff);
 			} catch (error) {
 				alert(error);
@@ -77,17 +94,29 @@ class UserManagement extends React.Component {
                         logged as: {username}
                     </li>
                     <li className="nav-item my-auto mx-2">
-						<i className="fas fa-user user-ico fa-lg"></i>
+						<i
+								className="fas fa-user user-ico fa-lg"
+								onClick={this.updateUserHandler}
+						></i>
                     </li>
                     <li className="nav-item my-auto">
-                        <i className="fas fa-sign-out-alt user-ico fa-lg" onClick={this.logoutHandler}></i>
+						<i
+								className="fas fa-sign-out-alt user-ico fa-lg"
+								onClick={this.logoutHandler}
+						></i>
                     </li>
                 </ul>
 			)
 		} else {
 			return (
 				<form className="form-inline" onSubmit={this.loginHandler}>
-					<button className="btn btn-secondary mr-3">Sign up</button>
+					<button
+							type="button"
+							className="btn btn-secondary mr-3"
+							onClick={this.registerButtonHandler}
+					>
+						Sign up
+					</button>
 
 					<input
 							name="username"
