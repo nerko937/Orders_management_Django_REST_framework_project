@@ -1,5 +1,5 @@
 import React from 'react';
-import axios from '../axiosInstance';
+import {defaultInstance, authInstance} from '../axiosInstances';
 
 
 class UserManagement extends React.Component {
@@ -21,7 +21,7 @@ class UserManagement extends React.Component {
 			password: event.target.elements.password.value
 		}
 		try {
-			const response = await axios.post('auth/login/', userData);
+			const response = await defaultInstance.post('auth/login/', userData);
 			if (response.status === 200) {
 				localStorage.setItem('token', response.data.key);
 				this.setState({username: userData.username, isLoading: false});
@@ -34,7 +34,7 @@ class UserManagement extends React.Component {
 	
 	logoutHandler = async () => {
 		try {
-			const response = await axios.post('auth/logout/');
+			const response = await defaultInstance.post('auth/logout/');
 			if (response.status === 200) {
 				localStorage.removeItem('token');
 				localStorage.removeItem('isStaff');
@@ -46,19 +46,17 @@ class UserManagement extends React.Component {
 	}
 
 	async componentDidMount() {
-		this.setState({isLoading: true})
-		const token = localStorage.getItem('token');
-		if (token) {
+		if (localStorage.getItem('token')) {
+			this.setState({isLoading: true})
 			try {
-				const response = await axios.get(
-					'users/self/',
-					{headers: {'Authorization': 'Token ' + token}}
-				);
+				const response = await authInstance.get('users/self/');
 				this.setState({username: response.data.username, isLoading: false});
 				localStorage.setItem('isStaff', response.data.is_staff);
 			} catch (error) {
 				alert(error);
 			}
+		} else {
+			this.setState({isLoading: false})
 		}
 	}
 
