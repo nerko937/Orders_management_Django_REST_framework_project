@@ -1,6 +1,7 @@
 import React from 'react';
 import $ from 'jquery';
 import {defaultInstance, authInstance} from '../axiosInstances';
+import alertError from '../alertError';
 
 
 class UserManagement extends React.Component {
@@ -29,7 +30,7 @@ class UserManagement extends React.Component {
 			}
 		} catch (error) {
 			this.setState({isLoading: false})
-			alert(error);
+			alertError(error);
 		}
 	}
 	
@@ -42,7 +43,7 @@ class UserManagement extends React.Component {
 				this.setState({username: null});
 			}
 		} catch (error) {
-			alert(error);
+			alertError(error);
 		}
 	}
 
@@ -52,11 +53,6 @@ class UserManagement extends React.Component {
 
 	registerButtonHandler() {
 		$('#modalRegister').modal('show')
-	}
-
-	registerHandler = async (event) => {
-		console.log(event);
-		//const response = await defaultInstance.post('auth/login/', );
 	}
 
 	async componentDidMount() {
@@ -70,7 +66,7 @@ class UserManagement extends React.Component {
 				});
 				localStorage.setItem('isStaff', response.data.is_staff);
 			} catch (error) {
-				alert(error);
+				alertError(error);
 			}
 		} else {
 			this.setState({isLoading: false})

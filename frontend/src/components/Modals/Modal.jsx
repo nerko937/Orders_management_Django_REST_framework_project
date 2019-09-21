@@ -1,23 +1,32 @@
 import React from 'react';
+import defaultInstance from '../axiosInstances';
+import alertError from '../alertError';
 
 
 class Modal extends React.Component {
 
-	inputField(inputName, formTitle, attributeType='text') {
-		const htmlAttr = inputName.replace(' ', '');
+	constructor(props) {
+		super(props);
+		this.registerHandler = this.registerHandler.bind(this);
+	};
+
+	inputField(inputName, attributeType='text', specialName=null) {
+		const htmlAttr = inputName.toLowerCase().replace(' ', '_');
+		const attrEnding = '_' + this.props.title.toLowerCase();
 		return (
 			<div className="form-group row">
 				<label
-						htmlFor={htmlAttr + formTitle}
+						htmlFor={htmlAttr + attrEnding}
 						className="col-sm-4 col-form-label"
 				>
 					{inputName}
 				</label>
 				<div className="col-sm-8">
 					<input
+							name={specialName ? specialName : htmlAttr}
 							type={attributeType}
 							className="form-control"
-							id={htmlAttr + formTitle}
+							id={htmlAttr + attrEnding}
 							placeholder={inputName}
 					/>
 				</div>
@@ -35,6 +44,27 @@ class Modal extends React.Component {
 				</button>
 			</div>
 		)
+	}
+
+	async registerHandler(event) {
+		event.preventDefault();
+		const data = new FormData(event.target);
+		// const fields = event.target.elements;
+		// let data = {}
+		// for (let index = 0; index < fields.length; index++) {
+		// 	if (fields[index].name === '') {break}
+		// 	data[fields[index].name] = fields[index].value;
+		// }
+		// data = JSON.stringify(data);
+		// console.log(data);
+		try {
+			const response = await defaultInstance.post('auth/registration/', data);
+			localStorage.setItem('token', response.data.key);
+			window.location.reload();
+		} catch (error) {
+			alertError(error);
+		}
+		
 	}
 
 	render() {
@@ -60,23 +90,35 @@ class Modal extends React.Component {
 							</button>
 						</div>
 						<div className="modal-body">
-							<form>
+							<form
+									onSubmit={
+										title === 'Register' ?
+										this.registerHandler 
+										: null
+									}
+							>
 
-								{this.inputField('Username', title)}
-								{this.inputField('Email', title, 'email')}
-								{this.inputField('First Name', title)}
-								{this.inputField('Last Name', title)}
+								{this.inputField('Username')}
+								{this.inputField('Email', 'email')}
+								{this.inputField('First Name')}
+								{this.inputField('Last Name')}
 																
 								{
-									title.toLowerCase() === 'update user' ? '' :
-									<div>
-										{this.inputField(
-											'Password', title, 'password'
-										)}
-										{this.inputField(
-											'Repeat Password', title, 'password'
-										)}
-									</div>
+									title === 'Register' ?
+										<div>
+											{this.inputField(
+												'Password',
+												'password',
+												'password1'
+											)}
+											{this.inputField(
+												'Repeat Password',
+												'password',
+												'password2'
+											)}
+										</div>
+
+									: ''
 								}
 
 								{this.submitButton(title)}
@@ -84,20 +126,22 @@ class Modal extends React.Component {
 							</form>
 
 							{
-								!(title.toLowerCase() === 'update user') ? '' :
+								title === 'Update User' ?
 
-								<form className="mt-5">
+									<form className="mt-5">
 
-									{this.inputField(
-										'Password', title, 'password'
-									)}
-									{this.inputField(
-										'Password-repeat', title, 'password'
-									)}
+										{this.inputField(
+											'New Password', 'password'
+										)}
+										{this.inputField(
+											'Repeat Password', 'password'
+										)}
 
-									{this.submitButton('Change password')}
+										{this.submitButton('Change password')}
 
-								</form>
+									</form>
+								
+								: ''
 							}
 
 						</div>

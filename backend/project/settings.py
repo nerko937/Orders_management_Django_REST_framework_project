@@ -47,6 +47,10 @@ REST_FRAMEWORK = {
     ],
 }
 
+REST_AUTH_REGISTER_SERIALIZERS = {
+    'REGISTER_SERIALIZER': 'users.serializers.NameRegistrationSerializer',
+}
+
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 SITE_ID = 1
