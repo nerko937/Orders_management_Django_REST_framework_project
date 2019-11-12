@@ -20,3 +20,7 @@ code {
   cursor: pointer;
   color: #a6a6a6;
 }
+
+.table-success:hover, .table-danger:hover {
+  cursor: pointer;
+}
