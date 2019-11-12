@@ -1,4 +1,3 @@
-import React from 'react';
 import ModalParent from './ModalParent'
 import {defaultInstance, authInstance} from '../axiosInstances';
 import alertError from '../alertError';
@@ -117,91 +116,7 @@ class Modal extends ModalParent {
 	render() {
 		const title = this.props.title;
 
-		return (
-		<div>{this.modal(title, this.buildModalBody())}</div>
-			// <div
-			// 		className="modal"
-			// 		tabIndex="-1"
-			// 		role="dialog"
-			// 		id={"modal" + title.replace(' ', '')}
-			// >
-			// 	<div className="modal-dialog" role="document">
-			// 		<div className="modal-content">
-			// 			<div className="modal-header">
-			// 				<h5 className="modal-title">{title}</h5>
-			// 				<button type="button"
-			// 						className="close"
-			// 						data-dismiss="modal"
-			// 						aria-label="Close"
-			// 				>
-			// 					<span aria-hidden="true">&times;</span>
-			// 				</button>
-			// 			</div>
-			// 			<div className="modal-body">
-			// 				<form
-			// 						onSubmit={
-			// 							title === 'Register' ?
-			// 							this.registerHandler 
-			// 							: this.updateUserHandler
-			// 						}
-			// 				>
-
-			// 					{this.inputField('Username')}
-			// 					{this.inputField('Email', 'email')}
-			// 					{this.inputField('First Name')}
-			// 					{this.inputField('Last Name')}
-																
-			// 					{
-			// 						title === 'Register' ?
-			// 							<div>
-			// 								{this.inputField(
-			// 									'Password',
-			// 									'password',
-			// 									'password1'
-			// 								)}
-			// 								{this.inputField(
-			// 									'Repeat Password',
-			// 									'password',
-			// 									'password2'
-			// 								)}
-			// 							</div>
-
-			// 						: ''
-			// 					}
-
-			// 					{this.submitButton(title)}
-								
-			// 				</form>
-
-			// 				{
-			// 					title === 'Update User' ?
-
-			// 						<form className="mt-5"
-			// 						onSubmit={this.changePasswordHandler}>
-
-			// 							{this.inputField(
-			// 								'New Password',
-			// 								'password',
-			// 								'new_password1'
-			// 							)}
-			// 							{this.inputField(
-			// 								'Repeat Password',
-			// 								'password',
-			// 								'new_password2'
-			// 							)}
-
-			// 							{this.submitButton('Change password')}
-
-			// 						</form>
-								
-			// 					: ''
-			// 				}
-
-			// 			</div>
-			// 		</div>
-			// 	</div>
-			// </div>
-		)
+		return <div>{this.modal(title, this.buildModalBody())}</div>
 	}
 
 }
