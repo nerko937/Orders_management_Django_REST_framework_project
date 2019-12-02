@@ -1,4 +1,5 @@
-import ModalParent from './ModalParent'
+import React from 'react';
+import ModalParent from './ModalParent';
 import {defaultInstance, authInstance} from '../axiosInstances';
 import alertError from '../alertError';
 
