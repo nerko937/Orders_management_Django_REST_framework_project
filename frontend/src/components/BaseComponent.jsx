@@ -1,7 +1,8 @@
 import React from 'react';
 import NavBar from './NavBar/NavBar';
 import Orders from './Orders/Orders';
-import UserModal from './Modals/UserModal'
+import UserModal from './Modals/UserModal';
+import OrderModal from './Modals/OrderModal';
 
 
 class BaseComponent extends React.Component {
@@ -29,6 +30,7 @@ class BaseComponent extends React.Component {
 					<Orders dataToSearch={this.state.dataToSearch} />
 					<UserModal title={'Register'} />
 					<UserModal title={'Update User'} />
+					<OrderModal title={'Order Management'} />
 				</main>
 			</div>
     	);

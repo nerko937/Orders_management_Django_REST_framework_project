@@ -28,9 +28,48 @@ class ModalParent extends React.Component {
 		)
 	}
 
+	selectField(options, name) {
+		return (
+			<select className="form-control" name={name}>
+				{options.map((value, index) => {
+					const val = typeof(value) === Object ? value.value : value[0]
+					const text = typeof(value) === Object ? value.text : value[1]
+					return <option value={val} key={index}>
+							   {text}
+						   </option>
+				})}
+			</select>
+		)	
+	}
+
+	radioField(name, value, text) {
+		return (
+			<div className="form-check">
+				<input className="form-check-input"
+						type="radio" name={name}
+						value={value}
+				/>
+				<label className="form-check-label">
+					{text}
+				</label>
+			</div>
+		)
+	}
+
+	checkboxField(name, text) {
+		return (
+			<div className="form-check">
+				<input className="form-check-input" type="checkbox" name={name}/>
+				<label className="form-check-label">
+					{text}
+				</label>
+			</div>
+		)
+	}
+
 	submitButton(name) {
 		return (
-			<div className="form-group">
+			<div className="form-group form-check-inline">
 				<button type="submit"
 						className="btn btn-primary btn-block"
 				>

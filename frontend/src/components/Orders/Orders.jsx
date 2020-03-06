@@ -1,4 +1,5 @@
 import React from 'react';
+import $ from 'jquery';
 import defaultInstance from '../axiosInstances';
 
 
@@ -47,6 +48,10 @@ class Orders extends React.Component {
 		}
 	}
 
+	showOrder() {
+		$('#modalOrderManagement').modal('show')
+	}
+
 	componentDidMount() {
 		this.getOrders();
 	}
@@ -70,7 +75,7 @@ class Orders extends React.Component {
 	
 		return (
 			<div className="m-5">
-			<table className="table border">
+			<table className="table table-hover border">
 				<thead>
 					<tr>
 						<th>Name</th>
@@ -88,6 +93,7 @@ class Orders extends React.Component {
 								elem.realisation_limit_date, elem.status
 							)
 						}
+						onClick={this.showOrder}
 					>
 						<td>{elem.name}</td>
 						<td>{elem.order_type}</td>
